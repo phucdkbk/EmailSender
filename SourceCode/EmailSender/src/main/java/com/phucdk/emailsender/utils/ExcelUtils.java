@@ -9,11 +9,13 @@ import com.phucdk.emailsender.object.Canho;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.lang.reflect.Array;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import org.apache.log4j.Logger;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellValue;
+import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.util.CellUtil;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -24,49 +26,68 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  */
 public class ExcelUtils {
 
+    private static final Logger log = Logger.getLogger(ExcelUtils.class);
+
     public static List<Canho> readData(String fileName) throws Exception {
+
         List<Canho> listCanhos = new ArrayList<>();
         try {
             File myFile = new File(fileName);
             FileInputStream fis = new FileInputStream(myFile);
             XSSFWorkbook myWorkBook = new XSSFWorkbook(fis);
-            XSSFSheet mySheet = myWorkBook.getSheetAt(1);
 
             int startRow = Constants.ROW.START_ROW;
-            int endRow = getNumberOfRows(mySheet);            
+            int endRow = getNumberOfRows(myWorkBook);
+            
+
+            DecimalFormat formatter = new DecimalFormat("#,###");
 
             for (int i = startRow; i < endRow; i++) {
-                String strSTT = getCellValueAsString(i, 0, mySheet);
+                String strSTT = getCellValueAsString(i, 0, myWorkBook);
                 if (StringUtils.isNumeric(strSTT)) {
                     Canho aCanho = new Canho();
                     Double doubleSTT = Double.parseDouble(strSTT);
                     aCanho.setSTT(doubleSTT.longValue());
-                    aCanho.setSoCanho(getCellValueAsString(i, 1, mySheet));
-                    aCanho.setTang(getCellValueAsString(i, 2, mySheet));
-                    aCanho.setDientichSudung(getCellValueAsString(i, 3, mySheet));
-                    aCanho.setDientichXaydung(getCellValueAsString(i, 4, mySheet));
-                    aCanho.setHeso(getCellValueAsString(i, 5, mySheet));
-                    aCanho.setGiatriHeso(getCellValueAsString(i, 6, mySheet));
-                    aCanho.setDongia(getCellValueAsString(i, 7, mySheet));
-                    aCanho.setGiabanThongthuy(getCellValueAsString(i, 8, mySheet));
-                    aCanho.setGiatriCanhoHoanthien(getCellValueAsString(i, 9, mySheet));
+                    aCanho.setSoCanho(getCellValueAsString(i, 1, myWorkBook));
+                    aCanho.setTang(getCellValueAsString(i, 2, myWorkBook));
+                    aCanho.setDientichSudung(getCellValueAsString(i, 3, myWorkBook));
+                    aCanho.setDientichXaydung(getCellValueAsString(i, 4, myWorkBook));
+                    aCanho.setHeso(getCellValueAsString(i, 5, myWorkBook));
+                    aCanho.setGiatriHeso(getCellValueAsString(i, 6, myWorkBook));
+                    aCanho.setDongia(getCellValueAsString(i, 7, myWorkBook));
+                    aCanho.setGiabanThongthuy(getCellValueAsString(i, 8, myWorkBook));
+                    aCanho.setGiabanThongthuyNumber((Double) getCellValue(i, 8, myWorkBook));
+                    aCanho.setGiatriCanhoHoanthien(getCellValueAsString(i, 9, myWorkBook));
+                    aCanho.setGiatriCanhoHoanthienNumber((Double) getCellValue(i, 9, myWorkBook));
+
+                    aCanho.setTongGiatriHopdong(getCellValueAsString(i, 10, myWorkBook));
+                    aCanho.setTongGiatriHopdongNumber((Double) getCellValue(i, 10, myWorkBook));
+                    aCanho.setTongGiatriPhainopTheotiendo(getCellValueAsString(i, 11, myWorkBook));
+                    aCanho.setTongGiatriPhainopTheotiendoNumber((Double) getCellValue(i, 11, myWorkBook));
+                    aCanho.setSoDanop(getCellValueAsString(i, 12, myWorkBook));
+                    aCanho.setSoDanopNumber((Double) getCellValue(i, 12, myWorkBook));
+                    aCanho.setSoConphainopDotnay(getCellValueAsString(i, 13, myWorkBook));
+                    aCanho.setSoConphainopDotnayNumber((Double) getCellValue(i, 13, myWorkBook));
+                    aCanho.setDot1(getCellValueAsString(i, 14, myWorkBook));
+                    aCanho.setHovatenKhachang(getCellValueAsString(i, 16, myWorkBook));
+                    aCanho.setSoChungminh(getCellValueAsString(i, 17, myWorkBook));
+
+                    aCanho.setNgaycap(getCellValueAsString(i, 18, myWorkBook));
+                    aCanho.setNoicap(getCellValueAsString(i, 19, myWorkBook));
+                    aCanho.setHokhauThuongtru(getCellValueAsString(i, 20, myWorkBook));
+                    aCanho.setDiachiLienhe(getCellValueAsString(i, 21, myWorkBook));
+                    aCanho.setDienthoai(getCellValueAsString(i, 22, myWorkBook));
+                    aCanho.setEmail(getCellValueAsString(i, 23, myWorkBook));
+                    aCanho.setSotienBangchu(getCellValueAsString(i, 24, myWorkBook));
                     
-                    aCanho.setTongGiatriHopdong(getCellValueAsString(i, 10, mySheet));
-                    aCanho.setTongGiatriPhainopTheotiendo(getCellValueAsString(i, 11, mySheet));
-                    aCanho.setSoDanop(getCellValueAsString(i, 12, mySheet));
-                    aCanho.setSoConphainopDotnay(getCellValueAsString(i, 1, mySheet));
-                    aCanho.setDot1(getCellValueAsString(i, 1, mySheet));
-                    aCanho.setHovatenKhachang(getCellValueAsString(i, 1, mySheet));
-                    aCanho.setSoChungminh(getCellValueAsString(i, 1, mySheet));
+                    
+                    aCanho.setGiabanThongthuy(formatter.format(aCanho.getGiabanThongthuyNumber()));
+                    aCanho.setGiatriCanhoHoanthien(formatter.format(aCanho.getGiatriCanhoHoanthienNumber()));
+                    aCanho.setTongGiatriHopdong(formatter.format(aCanho.getTongGiatriHopdongNumber()));
+                    aCanho.setTongGiatriPhainopTheotiendo(formatter.format(aCanho.getTongGiatriPhainopTheotiendoNumber()));
+                    aCanho.setSoConphainopDotnay(formatter.format(aCanho.getSoConphainopDotnayNumber()));
                     
                     
-                    aCanho.setNgaycap(getCellValueAsString(i, 1, mySheet));
-                    aCanho.setNoicap(getCellValueAsString(i, 1, mySheet));
-                    aCanho.setHokhauThuongtru(getCellValueAsString(i, 1, mySheet));
-                    aCanho.setDiachiLienhe(getCellValueAsString(i, 1, mySheet));
-                    aCanho.setDienthoai(getCellValueAsString(i, 1, mySheet));
-                    aCanho.setEmail(getCellValueAsString(i, 1, mySheet));
-                    aCanho.setSotienBangchu(getCellValueAsString(i, 1, mySheet));
                     listCanhos.add(aCanho);
                 }
             }
@@ -89,24 +110,72 @@ public class ExcelUtils {
         }
     }
 
-    public static String getCellValueAsString(int row, int column, XSSFSheet sheet) {
-        Cell cell = getCell(row, column, sheet);
-        String cellValue = "";
-        switch (cell.getCellType()) {
-            case Cell.CELL_TYPE_NUMERIC:
-                cellValue = String.valueOf(cell.getNumericCellValue());
-                break;
-            case Cell.CELL_TYPE_BOOLEAN:
-                cellValue = String.valueOf(cell.getBooleanCellValue());
-                break;
-            case Cell.CELL_TYPE_STRING:
-                cellValue = String.valueOf(cell.getStringCellValue());
-                break;
-            case Cell.CELL_TYPE_FORMULA:
-                cellValue = String.valueOf(cell.getCellFormula());
-                break;
+    public static String getCellValueAsString(int row, int column, XSSFWorkbook myWorkBook) {
+        XSSFSheet mySheet = myWorkBook.getSheetAt(1);
+        Cell cell = getCell(row, column, mySheet);
+        String strCellValue = "";
+        FormulaEvaluator evaluator = myWorkBook.getCreationHelper().createFormulaEvaluator();
+        if (cell != null) {
+            CellValue cellValue = null;
+            try {
+                cellValue = evaluator.evaluate(cell);
+            } catch (Exception ex) {
+                log.error("Error when evaluate cell value", ex);
+            }
+
+            if (cellValue != null) {
+                switch (cellValue.getCellType()) {
+                    case Cell.CELL_TYPE_NUMERIC:
+                        strCellValue = String.valueOf(cellValue.getNumberValue());
+                        break;
+                    case Cell.CELL_TYPE_BOOLEAN:
+                        strCellValue = String.valueOf(cellValue.getBooleanValue());
+                        break;
+                    case Cell.CELL_TYPE_STRING:
+                        strCellValue = String.valueOf(cellValue.getStringValue());
+                        break;
+                    case Cell.CELL_TYPE_FORMULA:
+                        //strCellValue = String.valueOf(cellValue.get());
+                        break;
+                }
+            }
+
         }
-        return cellValue;
+        return strCellValue;
+    }
+
+    public static Object getCellValue(int row, int column, XSSFWorkbook myWorkBook) {
+        XSSFSheet mySheet = myWorkBook.getSheetAt(1);
+        Cell cell = getCell(row, column, mySheet);
+        Object cellValueObject = "";
+        FormulaEvaluator evaluator = myWorkBook.getCreationHelper().createFormulaEvaluator();
+        if (cell != null) {
+            CellValue cellValue = null;
+            try {
+                cellValue = evaluator.evaluate(cell);
+            } catch (Exception ex) {
+                log.error("Error when evaluate cell value", ex);
+            }
+
+            if (cellValue != null) {
+                switch (cellValue.getCellType()) {
+                    case Cell.CELL_TYPE_NUMERIC:
+                        cellValueObject = cellValue.getNumberValue();
+                        break;
+                    case Cell.CELL_TYPE_BOOLEAN:
+                        cellValueObject = cellValue.getBooleanValue();
+                        break;
+                    case Cell.CELL_TYPE_STRING:
+                        cellValueObject = cellValue.getStringValue();
+                        break;
+                    case Cell.CELL_TYPE_FORMULA:
+                        //strCellValue = cellValue.getErrorValue();
+                        break;
+                }
+            }
+
+        }
+        return cellValueObject;
     }
 
     private static boolean isEmptyCell(int row, int column, XSSFSheet sheet) {
@@ -119,6 +188,11 @@ public class ExcelUtils {
     }
 
     private static int getNumberOfRows(XSSFSheet sheet) {
+        return sheet.getPhysicalNumberOfRows();
+    }
+
+    private static int getNumberOfRows(XSSFWorkbook myWorkBook) {
+        XSSFSheet sheet = myWorkBook.getSheetAt(1);
         return sheet.getPhysicalNumberOfRows();
     }
 

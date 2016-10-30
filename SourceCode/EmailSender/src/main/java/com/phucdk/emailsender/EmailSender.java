@@ -20,17 +20,26 @@ import java.util.List;
 public class EmailSender {
 
     public static void main(String[] agrs) throws Exception {
-        List<Canho> listCanhos = ExcelUtils.readData("D:\\20150831\\Projects\\EmailSender\\DanhsachCanho.xlsx");
-        for(int i = 0; i<1; i++){
+        List<Canho> listCanhos = ExcelUtils.readData("D:\\phucdk\\Projects\\EmailSender\\DanhsachCanho.xlsx");
+        for (int i = 0; i < 1; i++) {
             Canho aCanho = listCanhos.get(i);
             HashMap<String, String> beans = new HashMap<>();
             setValueToBeans(beans, aCanho);
             EmailConfig emailConfig = new EmailConfig();
-            
-            String content = TemplateUtils.getContent("D:\\20150831\\Projects\\EmailSender\\Hello.htm", beans);
-            EmailUtils.sendEmail(emailConfig, content, content, content, content);
+
+            emailConfig.setEmailAddress("phucdkbk@gmail.com");
+            emailConfig.setPassword("Change23121988");
+
+            emailConfig.setSmtpAuth("true");
+            emailConfig.setSmtpSocketPort("465");
+            emailConfig.setSmtpClass("javax.net.ssl.SSLSocketFactory");
+            emailConfig.setSmtpHost("smtp.gmail.com");
+            emailConfig.setSmtpPort("465");
+
+            String content = TemplateUtils.getContent("D:\\phucdk\\Projects\\EmailSender\\NoidungUnicode.htm", beans);
+            EmailUtils.sendEmail(emailConfig, content, "Thông báo nộp tiền", "phucdkbk@gmail.com", aCanho.getEmail());
         }
-    }   
+    }
 
     private static void setValueToBeans(HashMap<String, String> beans, Canho aCanho) {
         beans.put("soCanho", aCanho.getSoCanho());
@@ -55,7 +64,7 @@ public class EmailSender {
         beans.put("diachiLienhe", aCanho.getDiachiLienhe());
         beans.put("dienthoai", aCanho.getDienthoai());
         beans.put("email", aCanho.getEmail());
-        beans.put("sotienBangchu", aCanho.getSotienBangchu());                        
+        beans.put("sotienBangchu", aCanho.getSotienBangchu());
     }
 
 }

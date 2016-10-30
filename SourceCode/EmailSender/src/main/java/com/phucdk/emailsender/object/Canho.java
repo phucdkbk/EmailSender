@@ -20,11 +20,17 @@ public class Canho {
     private String giatriHeso;
     private String dongia;
     private String giabanThongthuy;
+    private Double giabanThongthuyNumber;
     private String giatriCanhoHoanthien;
+    private Double giatriCanhoHoanthienNumber;
     private String tongGiatriHopdong;
+    private Double tongGiatriHopdongNumber;
     private String tongGiatriPhainopTheotiendo;
+    private Double tongGiatriPhainopTheotiendoNumber;
     private String soDanop;
+    private Double soDanopNumber;
     private String soConphainopDotnay;
+    private Double soConphainopDotnayNumber;
     private String dot1;
     private String hovatenKhachang;
     private String soChungminh;
@@ -227,7 +233,55 @@ public class Canho {
     public void setSotienBangchu(String sotienBangchu) {
         this.sotienBangchu = sotienBangchu;
     }
+
+    public Double getGiabanThongthuyNumber() {
+        return giabanThongthuyNumber;
+    }
+
+    public void setGiabanThongthuyNumber(Double giabanThongthuyNumber) {
+        this.giabanThongthuyNumber = giabanThongthuyNumber;
+    }
+
+    public Double getGiatriCanhoHoanthienNumber() {
+        return giatriCanhoHoanthienNumber;
+    }
+
+    public void setGiatriCanhoHoanthienNumber(Double giatriCanhoHoanthienNumber) {
+        this.giatriCanhoHoanthienNumber = giatriCanhoHoanthienNumber;
+    }
+
+    public Double getTongGiatriHopdongNumber() {
+        return tongGiatriHopdongNumber;
+    }
+
+    public void setTongGiatriHopdongNumber(Double tongGiatriHopdongNumber) {
+        this.tongGiatriHopdongNumber = tongGiatriHopdongNumber;
+    }
+
+    public Double getTongGiatriPhainopTheotiendoNumber() {
+        return tongGiatriPhainopTheotiendoNumber;
+    }
+
+    public void setTongGiatriPhainopTheotiendoNumber(Double tongGiatriPhainopTheotiendoNumber) {
+        this.tongGiatriPhainopTheotiendoNumber = tongGiatriPhainopTheotiendoNumber;
+    }   
+
+    public Double getSoDanopNumber() {
+        return soDanopNumber;
+    }
+
+    public void setSoDanopNumber(Double soDanopNumber) {
+        this.soDanopNumber = soDanopNumber;
+    }
+
+    public Double getSoConphainopDotnayNumber() {
+        return soConphainopDotnayNumber;
+    }
+
+    public void setSoConphainopDotnayNumber(Double soConphainopDotnayNumber) {
+        this.soConphainopDotnayNumber = soConphainopDotnayNumber;
+    }        
     
     
-    
+
 }

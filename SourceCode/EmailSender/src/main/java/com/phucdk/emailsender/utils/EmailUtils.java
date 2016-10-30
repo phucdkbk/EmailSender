@@ -39,13 +39,13 @@ public class EmailUtils {
     public static Session loginEmail(EmailConfig emailConfig) {
         Properties props = new Properties();
         props.put("mail.smtp.host", emailConfig.getSmtpHost());
-        props.put("mail.smtp.socketFactory.port", emailConfig.getSmtpPort());
-        props.put("mail.smtp.socketFactory.class", emailConfig.getSmtpSocketPort());
+        props.put("mail.smtp.socketFactory.port", emailConfig.getSmtpSocketPort());
+        props.put("mail.smtp.socketFactory.class", emailConfig.getSmtpClass());
         props.put("mail.smtp.auth", emailConfig.getSmtpAuth());
-        props.put("mail.smtp.port", emailConfig.getSmtpPort());
+        props.put("mail.smtp.port", emailConfig.getSmtpPort());               
 
         final String userName = emailConfig.getEmailAddress();
-        final String password = emailConfig.getEmailAddress();
+        final String password = emailConfig.getPassword();
 
         Session session = Session.getDefaultInstance(props,
                 new javax.mail.Authenticator() {
