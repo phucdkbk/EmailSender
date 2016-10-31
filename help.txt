@@ -1,0 +1,37 @@
+Buoc 1:
+Soan thao file .docx binh thuong voi noi dung can gui
+Buoc 2:
+Su dung tool Microsoft word de luu file thanh file .htm
+Buoc 3:
+Su dung tool Microsoft word de chen cac the vao file .htm
+
+
+
+Danh sach cac the co the su dung
+#soCanho
+#tang
+#dientichSudung
+#dientichXaydung
+#heso
+#giatriHeso
+#dongia
+#giabanThongthuy
+#giatriCanhoHoanthien
+#tongGiatriHopdong
+#tongGiatriPhainopTheotiendo
+#soDanop
+#soConphainopDotnay
+#dot1
+#hovatenKhachang
+#soChungminh
+#ngaycap
+#noicap
+#hokhauThuongtru
+#diachiLienhe
+#dienthoai
+#email
+
+Luu y khi su dung chuong trinh:
+- Khi bam send email thi se gui tat ca email trong file .elsx --> kiem tra can than thong tin truoc khi gui (nen chay thu truoc bang cach su dung email nguoi nhan la chinh minh)
+- File excel phai duoc luu duoi dinh dang xlsx
+- Sheet cua file excel de lay thong tin gia tien phai la "Sheet2" cua file .elsx (xem thong qua viec "view code" tren Microsoft Excel)
