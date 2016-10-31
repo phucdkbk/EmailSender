@@ -40,8 +40,8 @@ public class EmailSender {
             EmailUtils.sendEmail(emailConfig, content, "Thông báo nộp tiền", "phucdkbk@gmail.com", aCanho.getEmail());
         }
     }
-
-    private static void setValueToBeans(HashMap<String, String> beans, Canho aCanho) {
+    
+    public static void setValueToBeans(HashMap<String, String> beans, Canho aCanho) {
         beans.put("soCanho", aCanho.getSoCanho());
         beans.put("tang", aCanho.getTang());
         beans.put("dientichSudung", aCanho.getDientichSudung());
