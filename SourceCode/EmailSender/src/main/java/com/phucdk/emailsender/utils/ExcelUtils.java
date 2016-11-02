@@ -86,6 +86,7 @@ public class ExcelUtils {
                     aCanho.setTongGiatriHopdong(formatter.format(aCanho.getTongGiatriHopdongNumber()));
                     aCanho.setTongGiatriPhainopTheotiendo(formatter.format(aCanho.getTongGiatriPhainopTheotiendoNumber()));
                     aCanho.setSoConphainopDotnay(formatter.format(aCanho.getSoConphainopDotnayNumber()));
+                    aCanho.setSotienBangchu(ReadNumber.numberToString(aCanho.getSoConphainopDotnayNumber()));
                     
                     
                     listCanhos.add(aCanho);

@@ -24,11 +24,12 @@ public class EmailUtils {
     public static void sendEmail(EmailConfig emailConfig, String content, String subject, String senderEmail, String receiverEmail) {
         Session session = loginEmail(emailConfig);
         try {
-            Message message = new MimeMessage(session);
+            //Message message = new MimeMessage(session);
+            MimeMessage message= new MimeMessage(session);
             message.setFrom(new InternetAddress(senderEmail));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(receiverEmail));
-            message.setSubject(subject);            
+            message.setSubject(subject, "utf-8");            
             message.setContent(content, "text/html; charset=utf-8");
             Transport.send(message);            
         } catch (MessagingException e) {

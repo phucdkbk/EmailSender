@@ -1,0 +1,32 @@
+Buoc 1:
+Soan thao file .docx binh thuong voi noi dung can gui
+Buoc 2:
+Su dung tool Microsoft word de luu file thanh file .htm
+Buoc 3:
+Su dung tool Microsoft word de chen cac the vao file .htm
+
+
+
+Danh sach cac the co the su dung
+#soCanho
+#tang
+#dientichSudung
+#dientichXaydung
+#heso
+#giatriHeso
+#dongia
+#giabanThongthuy
+#giatriCanhoHoanthien
+#tongGiatriHopdong
+#tongGiatriPhainopTheotiendo
+#soDanop
+#soConphainopDotnay
+#dot1
+#hovatenKhachang
+#soChungminh
+#ngaycap
+#noicap
+#hokhauThuongtru
+#diachiLienhe
+#dienthoai
+#email

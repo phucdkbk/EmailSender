@@ -23,6 +23,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
@@ -36,7 +39,9 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
 public class EmailSenderMain extends JFrame {
 
@@ -46,7 +51,10 @@ public class EmailSenderMain extends JFrame {
     private final JTextField templateFileLabel = new JTextField();
     private final JTextField templateFile = new JTextField();
 
-    private final JTextField result = new JTextField();
+    private final JTextField emailTitleLabel = new JTextField();
+    private final JTextField emailTitle = new JTextField();
+
+    private final JTextArea result = new JTextArea();
     private String textResult = "";
 
     private final JButton openDataFile = new JButton("Open data file");
@@ -104,14 +112,20 @@ public class EmailSenderMain extends JFrame {
         p.add(dataFile);
         openDataFile.addActionListener(new OpenL());
         p.add(openDataFile);
-                
+
         templateFileLabel.setEditable(false);
         templateFileLabel.setText("Template file:");
         p.add(templateFileLabel);
         templateFile.setEditable(false);
         p.add(templateFile);
-        openTemplateFile.addActionListener(new OpenL());
+        openTemplateFile.addActionListener(new OpenTemplate());
         p.add(openTemplateFile);
+
+        emailTitleLabel.setEditable(false);
+        emailTitleLabel.setText("Email title:");
+        p.add(emailTitleLabel);
+        emailTitle.setEditable(true);
+        p.add(emailTitle);
 
         cp.add(p, BorderLayout.NORTH);
     }
@@ -152,21 +166,33 @@ public class EmailSenderMain extends JFrame {
         public void actionPerformed(ActionEvent e) {
             try {
                 List<Canho> listCanhos = ExcelUtils.readData(dataFile.getText());
-                for (int i = 0; i < 1; i++) {
-                    Canho aCanho = listCanhos.get(i);
+                for (Canho aCanho : listCanhos) {
                     HashMap<String, String> beans = new HashMap<>();
                     EmailSender.setValueToBeans(beans, aCanho);
                     com.phucdk.emailsender.object.EmailConfig emailConfig = new com.phucdk.emailsender.object.EmailConfig();
                     getEmailConfig(emailConfig);
                     String content = TemplateUtils.getContent(templateFile.getText(), beans);
                     if (aCanho.getEmail() != null && EmailValidator.validate(aCanho.getEmail())) {
-                        EmailUtils.sendEmail(emailConfig, content, "Thông báo nộp tiền", "phucdkbk@gmail.com", aCanho.getEmail());
+                        EmailUtils.sendEmail(emailConfig, content, emailTitle.getText(), "phucdkbk@gmail.com", aCanho.getEmail());
                         textResult += "Gửi thành công email tới: " + aCanho.getEmail() + " tương ứng căn hộ: " + aCanho.getSoCanho() + "\n";
                     } else {
                         textResult += "Gửi thất bại do email không hợp lệ, căn hộ tương ứng: " + aCanho.getEmail() + "\n";
                     }
+                    //break;
+//                    SwingUtilities.invokeLater(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            result.setText(textResult);
+//                        }
+//                    });
                 }
                 result.setText(textResult);
+
+                SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyyHHmmss");
+                String date = sdf.format(new Date());
+                PrintWriter out = new PrintWriter("emailSendLog_" + date + ".txt", "UTF-8");
+                out.println(textResult);
+                out.close();
             } catch (Exception ex) {
                 result.setText(ex.getMessage());
                 Logger.getLogger(EmailSenderMain.class.getName()).log(Level.SEVERE, null, ex);
@@ -188,7 +214,6 @@ public class EmailSenderMain extends JFrame {
                 emailConfig.setSmtpSocketPort(prop.getProperty("mail.smtp.socketFactory.port"));
                 emailConfig.setEmailAddress(prop.getProperty("emailaddress"));
                 emailConfig.setPassword(prop.getProperty("password"));
-
             } catch (IOException ex) {
                 ex.printStackTrace();
             } finally {
@@ -200,7 +225,6 @@ public class EmailSenderMain extends JFrame {
                     }
                 }
             }
-
         }
     }
 
@@ -213,7 +237,17 @@ public class EmailSenderMain extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            Properties prop = new Properties();
+            InputStream input = null;
             try {
+                input = new FileInputStream("config.properties");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            try {
+                if (input != null) {
+                    prop.load(input);
+                }
                 JFrame frame = new JFrame("Email config");
                 Container cp = frame.getContentPane();
                 frame.setSize(500, 400);
@@ -232,6 +266,7 @@ public class EmailSenderMain extends JFrame {
                 emailAdressLabel.setText("Email Adress:");
                 p.add(emailAdressLabel);
                 emailAdress.setEditable(true);
+                emailAdress.setText(prop.getProperty("emailaddress"));
                 p.add(emailAdress);
 
                 JTextField passwordLabel = new JTextField();
@@ -239,6 +274,7 @@ public class EmailSenderMain extends JFrame {
                 passwordLabel.setText("Password:");
                 p.add(passwordLabel);
                 password.setEditable(true);
+                password.setText(prop.getProperty("password"));
                 p.add(password);
 
                 JTextField smtpHostLabel = new JTextField();
@@ -246,6 +282,7 @@ public class EmailSenderMain extends JFrame {
                 smtpHostLabel.setText("SMTP host:");
                 p.add(smtpHostLabel);
                 smtpHost.setEditable(true);
+                smtpHost.setText(prop.getProperty("mail.smtp.host"));
                 p.add(smtpHost);
 
                 JTextField smtpPortLabel = new JTextField();
@@ -253,6 +290,7 @@ public class EmailSenderMain extends JFrame {
                 smtpPortLabel.setText("SMTP port:");
                 p.add(smtpPortLabel);
                 smtpPort.setEditable(true);
+                smtpPort.setText(prop.getProperty("mail.smtp.port"));
                 p.add(smtpPort);
 
                 cp.add(p, BorderLayout.NORTH);
