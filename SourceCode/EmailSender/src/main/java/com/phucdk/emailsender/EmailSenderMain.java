@@ -166,7 +166,7 @@ public class EmailSenderMain extends JFrame {
         public void actionPerformed(ActionEvent e) {
             try {
                 List<Canho> listCanhos = ExcelUtils.readData(dataFile.getText());
-                for (Canho aCanho : listCanhos) {
+                for (Canho aCanho : listCanhos) {                    
                     HashMap<String, String> beans = new HashMap<>();
                     EmailSender.setValueToBeans(beans, aCanho);
                     com.phucdk.emailsender.object.EmailConfig emailConfig = new com.phucdk.emailsender.object.EmailConfig();

@@ -28,7 +28,7 @@ public class EmailSender {
             EmailConfig emailConfig = new EmailConfig();
 
             emailConfig.setEmailAddress("phucdkbk@gmail.com");
-            emailConfig.setPassword("Change23121988");
+            emailConfig.setPassword("123456");
 
             emailConfig.setSmtpAuth("true");
             emailConfig.setSmtpSocketPort("465");

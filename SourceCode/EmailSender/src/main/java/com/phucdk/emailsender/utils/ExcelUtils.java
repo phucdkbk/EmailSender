@@ -39,7 +39,7 @@ public class ExcelUtils {
             int startRow = Constants.ROW.START_ROW;
             int endRow = getNumberOfRows(myWorkBook);
             
-
+            
             DecimalFormat formatter = new DecimalFormat("#,###");
 
             for (int i = startRow; i < endRow; i++) {
@@ -49,6 +49,9 @@ public class ExcelUtils {
                     Double doubleSTT = Double.parseDouble(strSTT);
                     aCanho.setSTT(doubleSTT.longValue());
                     aCanho.setSoCanho(getCellValueAsString(i, 1, myWorkBook));
+                    if(aCanho.getSoCanho().contains(".")){
+                        aCanho.setSoCanho(aCanho.getSoCanho().substring(0, aCanho.getSoCanho().indexOf(".")));
+                    }
                     aCanho.setTang(getCellValueAsString(i, 2, myWorkBook));
                     aCanho.setDientichSudung(getCellValueAsString(i, 3, myWorkBook));
                     aCanho.setDientichXaydung(getCellValueAsString(i, 4, myWorkBook));
@@ -87,6 +90,7 @@ public class ExcelUtils {
                     aCanho.setTongGiatriPhainopTheotiendo(formatter.format(aCanho.getTongGiatriPhainopTheotiendoNumber()));
                     aCanho.setSoConphainopDotnay(formatter.format(aCanho.getSoConphainopDotnayNumber()));
                     aCanho.setSotienBangchu(ReadNumber.numberToString(aCanho.getSoConphainopDotnayNumber()));
+                    //aCanho.setSotienBangchu(ReadNumber.numberToString(aCanho.getSoConphainopDotnayNumber().longValue()));
                     
                     
                     listCanhos.add(aCanho);

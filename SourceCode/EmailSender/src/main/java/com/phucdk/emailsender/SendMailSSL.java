@@ -39,7 +39,7 @@ public class SendMailSSL {
                 new javax.mail.Authenticator() {
                     @Override
                     protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication("phucdkbk@gmail.com", "Change23121988");
+                        return new PasswordAuthentication("phucdkbk@gmail.com", "123456");
                     }
                 });
 
